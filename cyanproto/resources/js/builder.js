@@ -200,7 +200,10 @@
                 if (previousPoint != item.dataIndex) {
                     previousPoint = item.dataIndex;
                     
-                    var value3 = item.datapoint[1].toFixed(0);
+                    var value3 = item.datapoint[1];
+                    if (value3 == 1) {
+                    	value3 = 0;
+                    }
                     var timestamp3 = dddash.format_timestamp(item.datapoint[0], 'instant');
                     $("#value3").html(value3);
                     $("#timestamp3").html(timestamp3);
