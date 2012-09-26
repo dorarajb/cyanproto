@@ -8,66 +8,69 @@
 		srdata = srdata.replace(/{/g, '');
 		srdata = srdata.replace(/}/g, '');
 		var ardata = [];
-		var xticks = [];
 		var ardata1 = srdata.split(',');
+		var miny=0, maxy=0, minx=0, maxx=0;
+		var tempardata = ardata1[0].split(':');
+		
+		minx = parseInt(tempardata[0]);
+		miny = parseInt(tempardata[1]) * 1000;
 		for (i=0; i<ardata1.length; i++) {
 			var ardata2 = ardata1[i].split(':');
 			ardata2[0] = parseInt(ardata2[0]);
 			if (ardata2[0] > 0) { 
+				if (ardata2[0] > maxx) {
+					maxx = ardata2[0];
+				}
+				if (ardata2[0] < minx) {
+					minx = ardata2[0];
+				}
 				ardata2[1] = parseInt(ardata2[1]) * 1000;
+				if (ardata2[1] > maxy) {
+					maxy = ardata2[1];
+				}
+				if (ardata2[1] < miny) {
+					miny = ardata2[1];
+				}
 				ardata.push(ardata2);
-				xticks.push([ardata2[0], ardata2[0].toString()]);
 			}
 		}
 		
 		var options = {
-			xaxis: {show: false, ticks:xticks},
-			yaxis: {show: false, mode: 'time', min: 1300000000000, max: 1400000000000},
-			grid: {show: true, hoverable: true, clickable: true},
+			xaxis: {show: false,  min: (minx - 2), max: (maxx + 2)},
+			yaxis: {show: false, mode: 'time', min: (miny - miny/4000), max: (maxy + maxy/4000)},
+			grid: {show: false, hoverable: true, clickable: false},
 			lines: {show: true, color: "yellow"},
             points: {show: true}
 		};
 		
 		var data = [{data: ardata}];
-		$.plot($("#placeholder1"), data, options);
+		$.plot($("#spark1"), data, options);
 		
 		var previousPoint = null;
-	    $("#placeholder1").bind("plothover", function (event, pos, item) {
+	    $("#spark1").bind("plothover", function (event, pos, item) {
 
             if (item) {
                 if (previousPoint != item.dataIndex) {
                     previousPoint = item.dataIndex;
                     
-                    $("#tooltip1").remove();
-                    var x = item.datapoint[0].toFixed(0);
-                    var dt = new Date(parseInt(item.datapoint[1]));
-                    showTooltip(item.pageX, item.pageY, "Build: " + x + "<br> Time: " + dt.toUTCString());
+                    var value1 = item.datapoint[0].toFixed(0);
+                    var timestamp1 = dddash.format_timestamp(item.datapoint[1], 'instant');
+                    $("#value1").html(value1);
+                    $("#timestamp1").html(timestamp1);
                 }
             }
             else {
-                $("#tooltip1").remove();
+                $("#value1").html("645");
+                $("#timestamp1").html('&nbsp;');
                 previousPoint = null;            
             }
 	    });
 
-	    $("#placeholder1").bind("plotclick", function (event, pos, item) {
+	    $("#spark1").bind("plotclick", function (event, pos, item) {
 	        if (item) {
 	            plot.highlight(item.series, item.datapoint);
 	        }
 	    });
-
-	    function showTooltip(x, y, contents) {
-	        $('<div id="tooltip1">' + contents + '</div>').css( {
-	            position: 'absolute',
-	            display: 'none',
-	            top: y + 5,
-	            left: x + 5,
-	            border: '1px solid #fdd',
-	            padding: '2px',
-	            'background-color': '#fee',
-	            opacity: 0.80
-	        }).appendTo("body").fadeIn(200);
-	    }
 	}
 
 	
@@ -81,63 +84,212 @@
 		srdata = srdata.replace(/{/g, '');
 		srdata = srdata.replace(/}/g, '');
 		var ardata = [];
-		var xticks = [];
 		var ardata1 = srdata.split(',');
+		var miny=0, maxy=0, minx=0, maxx=0;
+		var tempardata = ardata1[0].split(':');
+		
+		minx = parseInt(tempardata[0]);
+		miny = parseInt(tempardata[1]) * 1000;
 		for (i=0; i<ardata1.length; i++) {
 			var ardata2 = ardata1[i].split(':');
 			ardata2[0] = parseInt(ardata2[0]);
 			if (ardata2[0] > 0) { 
+				if (ardata2[0] > maxx) {
+					maxx = ardata2[0];
+				}
+				if (ardata2[0] < minx) {
+					minx = ardata2[0];
+				}
 				ardata2[1] = parseInt(ardata2[1]) * 1000;
+				if (ardata2[1] > maxy) {
+					maxy = ardata2[1];
+				}
+				if (ardata2[1] < miny) {
+					miny = ardata2[1];
+				}
 				ardata.push(ardata2);
-				xticks.push([ardata2[0], ardata2[0].toString()]);
 			}
 		}
 		
 		var options = {
-			xaxis: {show: false, ticks:xticks},
-			yaxis: {show: false, mode: 'time', min: 1300000000000, max: 1400000000000},
-			grid: {show: true, hoverable: true, clickable: true},
-			lines: {show: true, color: "black"}
+			xaxis: {show: false,  min: (minx - 2), max: (maxx + 2)},
+			yaxis: {show: false, mode: 'time', min: (miny - miny/4000), max: (maxy + maxy/4000)},
+			grid: {show: false, hoverable: true, clickable: true},
+			lines: {show: true, color: "yellow"}
 		};
 		
 		var data = [{data: ardata}];
-		$.plot($("#placeholder2"), data, options);
+		$.plot($("#spark2"), data, options);
 		
 		var previousPoint = null;
-	    $("#placeholder2").bind("plothover", function (event, pos, item) {
-
+	    $("#spark2").bind("plothover", function (event, pos, item) {
             if (item) {
                 if (previousPoint != item.dataIndex) {
                     previousPoint = item.dataIndex;
                     
-                    $("#tooltip2").remove();
-                    var x = item.datapoint[0].toFixed(0);
-                    var dt = new Date(parseInt(item.datapoint[1]));
-                    showTooltip(item.pageX, item.pageY, "Build: " + x + "<br> Time: " + dt.toUTCString());
+                    var value2 = item.datapoint[0].toFixed(0);
+                    var timestamp2 = dddash.format_timestamp(item.datapoint[1], 'instant');
+                    $("#value2").html(value2);
+                    $("#timestamp2").html(timestamp2);
                 }
             }
             else {
-                $("#tooltip2").remove();
+                $("#value2").html("645");
+                $("#timestamp2").html('&nbsp;');
                 previousPoint = null;            
             }
 	    });
 
-	    $("#placeholder2").bind("plotclick", function (event, pos, item) {
+	    $("#spark2").bind("plotclick", function (event, pos, item) {
 	        if (item) {
 	            plot.highlight(item.series, item.datapoint);
 	        }
 	    });
 
-	    function showTooltip(x, y, contents) {
-	        $('<div id="tooltip2">' + contents + '</div>').css( {
-	            position: 'absolute',
-	            display: 'none',
-	            top: y + 5,
-	            left: x + 5,
-	            border: '1px solid #fdd',
-	            padding: '2px',
-	            'background-color': '#fee',
-	            opacity: 0.80
-	        }).appendTo("body").fadeIn(200);
-	    }
+	}
+
+	function processdata3(jsondata){
+
+		var pjdata = jQuery.parseJSON(JSON.stringify(jsondata));
+		var hddata = $('<div/>').html(pjdata).text();
+		var srdata = hddata.replace(/u/g, '');
+		srdata = srdata.replace(/'/g, '');
+		
+		srdata = srdata.replace(/{/g, '');
+		srdata = srdata.replace(/}/g, '');
+		var ardata = [];
+		var ardata1 = srdata.split(',');
+		var miny=0, maxy=0, minx=0, maxx=0;
+		var tempardata = ardata1[0].split(':');
+		
+		minx = parseInt(tempardata[0]) * 1000;
+		miny = parseInt(tempardata[1]);
+		for (i=0; i<ardata1.length; i++) {
+			var ardata2 = ardata1[i].split(':');
+			ardata2[0] = parseInt(ardata2[0]);
+			if (ardata2[0] > 0) { 
+				ardata2[0] = parseInt(ardata2[0]) * 1000;
+				if (ardata2[0] > maxx) {
+					maxx = ardata2[0];
+				}
+				if (ardata2[0] < minx) {
+					minx = ardata2[0];
+				}
+				if (ardata2[1] > maxy) {
+					maxy = ardata2[1];
+				}
+				if (ardata2[1] < miny) {
+					miny = ardata2[1];
+				}
+				ardata.push(ardata2);
+			}
+		}
+		var options = {
+			xaxis: {show: false, mode: 'time', min: (minx - minx/400), max: (maxx + maxx/400)},
+			yaxis: {show: false},
+			grid: {show: false, hoverable: true, clickable: true},
+			bars: {show: true, barWidth:20*24*60*60*1000, fillColor:"yellow", lineWidth:0, align:"center"}
+		};
+		
+		var data = [{data: ardata}];
+		$.plot($("#spark3"), data, options);
+		
+		var previousPoint = null;
+	    $("#spark3").bind("plothover", function (event, pos, item) {
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+                    
+                    var value3 = item.datapoint[1].toFixed(0);
+                    var timestamp3 = dddash.format_timestamp(item.datapoint[0], 'instant');
+                    $("#value3").html(value3);
+                    $("#timestamp3").html(timestamp3);
+                }
+            }
+            else {
+                $("#value3").html("25");
+                $("#timestamp3").html('&nbsp;');
+                previousPoint = null;            
+            }
+	    });
+
+	    $("#spark3").bind("plotclick", function (event, pos, item) {
+	        if (item) {
+	            plot.highlight(item.series, item.datapoint);
+	        }
+	    });
+
+	}
+
+	function processdata4(jsondata){
+
+		var pjdata = jQuery.parseJSON(JSON.stringify(jsondata));
+		var hddata = $('<div/>').html(pjdata).text();
+		var srdata = hddata.replace(/u/g, '');
+		srdata = srdata.replace(/'/g, '');
+		
+		srdata = srdata.replace(/{/g, '');
+		srdata = srdata.replace(/}/g, '');
+		var ardata = [];
+		var ardata1 = srdata.split(',');
+		var miny=0, maxy=0, minx=0, maxx=0;
+		var tempardata = ardata1[0].split(':');
+		
+		minx = parseInt(tempardata[0]) * 1000;
+		miny = parseInt(tempardata[1]);
+		for (i=0; i<ardata1.length; i++) {
+			var ardata2 = ardata1[i].split(':');
+			ardata2[0] = parseInt(ardata2[0]);
+			if (ardata2[0] > 0) { 
+				ardata2[0] = parseInt(ardata2[0]) * 1000;
+				if (ardata2[0] > maxx) {
+					maxx = ardata2[0];
+				}
+				if (ardata2[0] < minx) {
+					minx = ardata2[0];
+				}
+				if (ardata2[1] > maxy) {
+					maxy = ardata2[1];
+				}
+				if (ardata2[1] < miny) {
+					miny = ardata2[1];
+				}
+				ardata.push(ardata2);
+			}
+		}
+		var options = {
+				xaxis: {show: false, mode: 'time', min: (minx - minx/400), max: (maxx + maxx/400)},
+				yaxis: {show: false},
+				grid: {show: false, hoverable: true, clickable: true},
+				bars: {show: true, barWidth:7*24*60*60*1000, fillColor:"yellow", lineWidth:0, align:"center"}
+			};		
+
+		var data = [{data: ardata}];
+		$.plot($("#spark4"), data, options);
+		
+		var previousPoint = null;
+	    $("#spark4").bind("plothover", function (event, pos, item) {
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+                    
+                    var value4 = item.datapoint[1].toFixed(0);
+                    var timestamp4 = dddash.format_timestamp(item.datapoint[0], 'instant');
+                    $("#value4").html(value4);
+                    $("#timestamp4").html(timestamp4);
+                }
+            }
+            else {
+                $("#value4").html("7");
+                $("#timestamp4").html('&nbsp;');
+                previousPoint = null;            
+            }
+	    });
+
+	    $("#spark4").bind("plotclick", function (event, pos, item) {
+	        if (item) {
+	            plot.highlight(item.series, item.datapoint);
+	        }
+	    });
+
 	}

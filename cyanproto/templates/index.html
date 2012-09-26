@@ -4,43 +4,117 @@
 	<title>Builders</title>
 
 	<link rel="shortcut icon" href="{{MEDIA_URL}}image/favicon.ico">
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css">
 	
 	<script type="text/javascript" src="{{MEDIA_URL}}js/lib/jQuery.js"></script>
 	<script type="text/javascript" src="{{MEDIA_URL}}js/lib/jQuery.flot.js"></script>
 
   	<script type="text/javascript" src="{{MEDIA_URL}}js/builder.js"></script>
+  	<script type="text/javascript" src="{{MEDIA_URL}}js/ddash.js"></script>
 </head>
 
 <script type="text/javascript">
-	function processdata_1() {
+ 	function processdata_1() {
 		var jdata1 = "{{ jd1 }}";
 		processdata1(jdata1);
-		
 	}
 	function processdata_2() {
 		var jdata2 = "{{ jd2 }}";
 		processdata2(jdata2);
-		
+	}
+	function processdata_3() {
+		var jdata3 = "{{ jd3 }}";
+		processdata3(jdata3);
+	}
+	function processdata_4() {
+		var jdata3 = "{{ jd4 }}";
+		processdata3(jdata3);
 	}
 </script>
 
 <body>
-<h1 align="center">Cyan Project Development</h1>
-<br><br><br><br>
-<div style='height: 70%; width: 50%; float: left'>
-	<div align="justify">
-		<input type="button" onclick="javascript:processdata_1()" id="mybutton1" value="BuildMasterUpdater">
-	</div>
-	<br>
-	<div align="left" id="placeholder1" style="width:75%;height:100%;"></div>
-</div>
-<div style='height: 70%; width: 50%; float: right'>
-	<div align="justify">
-		<input type="button" onclick="javascript:processdata_2()" id="mybutton2" value="cytestBuildSlaveUpdate">
-	</div>
-	<br>
-	<div align="left" id="placeholder2" style="width:75%;height:100%;"></div>
-</div>
+  <h1>Cyan Project Development Dashboard</h1>
+  
+  
+    <div class="metric has-sparkline">
+      <h2><a href="javascript:processdata_1()">buildMasterUpdater</a></h2>
+      <p class="value" >
+        <a href="" id="value1">645</a>
+        <span class="timestamp" id="timestamp1">&nbsp;</span>
+      </p>
+      <div class="sparkline" id="spark1"></div>
+      
+    </div>
+    
+    <div class="metric has-sparkline">
+      <h2><a href="javascript:processdata_2()">cyTestBuildSlaveUpdate</a></h2>
+      <p class="value" >
+        <a href="#" id="value2" >645</a>
+        <span class="timestamp" id="timestamp2">&nbsp;</span>
+      </p>
+      
+        <div class="sparkline" id="spark2"></div>
+      
+    </div>
+
+    <div class="metric has-sparkline">
+      <h2><a href="javascript:processdata_3()">Builds per months</a></h2>
+      <p class="value" >
+        <a href="#" id="value3" >25</a>
+        <span class="timestamp" id="timestamp3">&nbsp;</span>
+      </p>
+      
+        <div class="sparkline" id="spark3"></div>
+      
+    </div>
+    
+    <div class="metric has-sparkline">
+      <h2><a href="javascript:processdata_4()">Builds per weeks</a></h2>
+      <p class="value">
+        <a href="#" id="value4">7</a>
+        <span class="timestamp" id="timestamp4">&nbsp;</span>
+      </p>
+      
+        <div class="sparkline" id="spark4"></div>
+      
+    </div>
 
 </body>
+
+<!-- <body>
+<div style='height: 80%; width: 100%; '>
+	<div align="center" style='height: 20%; width: 100%; float:top'>
+		<h1>Cyan Project Development</h1>
+		<br><br>
+	</div>
+	<div align="center" style='height: 80%; width: 100%; float:bottom'>
+		<div align="left" style='height: 100%; width: 50%; float: left'>
+			<div style="height: 20%; width: 80%; float: left">
+				<input type="button" onclick="javascript:processdata_3()" id="mybutton1" value="BuildMasterUpdater">
+				<br>
+			</div>
+			<div id="placeholder1" style="height:80%;width:80%;float:left"></div>
+		</div>
+		<div align="left" style='height: 100%; width: 50%; float: right'>
+			<div style="height: 20%; width: 100%; float: left">
+				<input type="button" onclick="javascript:processdata_2()" id="mybutton2" value="cytestBuildSlaveUpdate">
+				<br>
+			</div>
+			<div style="height: 80%; width: 100%; float: left">
+				<div style="height:100%;width:60%; float: left">
+					<div id="placeholder2" style="height:100%;width:100%;"></div>
+				</div>
+				<div align="center" style="height:100%;width:40%; float: right">
+					<div style="height:50%;width:100%;font-size: 30">
+						<h1><span id="x"></span></h1>
+					</div>
+					<div style="height:50%;width:100%;">
+						<h5><span id="y"></span></h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body> -->
 </html>
